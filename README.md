@@ -9,6 +9,18 @@
 
 ---
 
+## 📲 Download App (Testing Release)
+
+Untuk keperluan pengujian (*user testing*), silakan unduh versi terbaru melalui tautan di bawah ini:
+
+| Platform | Versi | Update Terakhir | Tautan Unduh |
+| :--- | :--- | :--- | :--- |
+| **Android (APK)** | v1.0.0-beta | 25 Maret 2026 | [**Download APK**](https://drive.google.com/drive/folders/1raxtRGt7PflRJQpTBSMq-URoPk4pspLL?usp=drive_link) |
+
+> **Catatan:** Jika Anda menginstal di Android, Anda mungkin perlu mengaktifkan izin *"Install from Unknown Sources"* pada pengaturan perangkat Anda karena aplikasi ini masih dalam tahap *development/beta*.
+
+---
+
 ## ✨ Fitur Utama
 
 * **Pencarian Produk Hukum:** Cari Perda, Perbup, dan Keputusan Bupati dengan filter tahun dan kategori.
@@ -20,7 +32,7 @@
 ## 🛠️ Tech Stack
 
 * **Frontend:** Flutter (Dart)
-* **State Management:** Provider **
+* **State Management:** Provider
 * **Local Storage:** Path Provider & Shared Preferences
 * **Networking:** Dio / Http (Terhubung ke REST API JDIH Nganjuk)
 * **Backend:** Laravel (API Provider)
