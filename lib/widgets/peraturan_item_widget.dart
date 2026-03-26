@@ -69,7 +69,7 @@ class PeraturanItemWidget extends StatelessWidget {
                 width: 42,
                 height: 42,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFDC2626).withOpacity(.12),
+                  color: const Color(0xFFDC2626).withValues(alpha: .12),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Icon(

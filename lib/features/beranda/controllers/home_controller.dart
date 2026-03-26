@@ -16,7 +16,9 @@ class HomeController {
   List<Peraturan> allData = [];
   List<Peraturan> filteredData = [];
   List<Peraturan> paginatedData = [];
+
   LoadState loadState = LoadState.loading;
+
   String searchQuery = '';
   String? selectedJenis;
   String? selectedTahun;
@@ -31,8 +33,10 @@ class HomeController {
 
   final VoidCallback onStateChanged;
   BuildContext? context;
+
   int currentPage = 1;
   int itemsPerPage = 10;
+
   bool get hasMoreData =>
       (currentPage * itemsPerPage) < filteredData.length;
 
@@ -41,6 +45,7 @@ class HomeController {
     this.context,
   });
 
+  /// INIT LISTENERS
   void initListeners() {
     searchController.addListener(() {
       search(searchController.text);
@@ -50,15 +55,20 @@ class HomeController {
     nomorController.addListener(applyFiltersFromInputs);
   }
 
+  /// LOAD DATA DARI API
   Future<void> loadData() async {
     loadState = LoadState.loading;
     onStateChanged();
 
     try {
-      final PeraturanResponse response =
-      await ApiService.fetchPeraturan();
+      final PeraturanResponse response = await ApiService.fetchPeraturan();
 
       allData = response.data;
+      allData.sort((a, b) {
+        final yearA = int.tryParse(a.tahunPengundangan) ?? 0;
+        final yearB = int.tryParse(b.tahunPengundangan) ?? 0;
+        return yearB.compareTo(yearA);
+      });
 
       if (allData.isEmpty) {
         filteredData = [];
@@ -70,6 +80,7 @@ class HomeController {
 
       filteredData = allData;
 
+      /// LIST JENIS PERATURAN
       jenisOptions =
           response.listJenis.map((e) => e.namaJenis).toList();
       jenisOptions.sort();
@@ -86,11 +97,13 @@ class HomeController {
     }
   }
 
+  /// SEARCH
   void search(String value) {
     searchQuery = value;
     applyFilters();
   }
 
+  /// FILTER DARI INPUT
   void applyFiltersFromInputs() {
     selectedTahun =
     tahunController.text.trim().isEmpty ? null : tahunController.text.trim();
@@ -101,6 +114,7 @@ class HomeController {
     applyFilters();
   }
 
+  /// FILTER JENIS
   void onJenisChanged(String? value) {
     selectedJenis = value;
     jenisController.text = value ?? '';
@@ -109,6 +123,7 @@ class HomeController {
 
   void applyFilters() {
     filteredData = allData.where((item) {
+
       final matchesKeyword = searchQuery.isEmpty ||
           item.judul.toLowerCase().contains(searchQuery.toLowerCase()) ||
           item.nomor.toLowerCase().contains(searchQuery.toLowerCase()) ||
@@ -139,6 +154,7 @@ class HomeController {
     resetPagination();
   }
 
+  /// RESET PAGINATION
   void resetPagination() {
     currentPage = 1;
     _applyPagination();
@@ -197,10 +213,12 @@ class HomeController {
 
   int getActiveFilterCount() {
     int count = 0;
+
     if (searchQuery.isNotEmpty) count++;
     if (nomorController.text.isNotEmpty) count++;
     if (jenisController.text.isNotEmpty) count++;
     if (tahunController.text.isNotEmpty) count++;
+
     return count;
   }
 

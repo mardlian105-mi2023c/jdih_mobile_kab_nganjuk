@@ -27,7 +27,7 @@ class LoadingStateWidget extends StatelessWidget {
         shape: BoxShape.circle,
         boxShadow: [
           BoxShadow(
-            color: Colors.blue.withOpacity(0.1),
+            color: Colors.blue.withValues(alpha: 0.1),
             blurRadius: 20,
             spreadRadius: 5,
           ),
@@ -42,7 +42,7 @@ class LoadingStateWidget extends StatelessWidget {
 
   Widget _buildTitle() {
     return Text(
-      'Memuat data peraturan...',
+      'Memuat Dokumen...',
       style: TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.w500,

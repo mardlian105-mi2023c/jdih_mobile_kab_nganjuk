@@ -22,13 +22,12 @@ class PeraturanListItemWidget extends StatelessWidget {
       children: [
         if (index == 0) const SizedBox(height: 8),
 
-        /// ⭐ OUTER SPACING (bukan internal card)
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Material(
             elevation: 2,
             borderRadius: BorderRadius.circular(14),
-            clipBehavior: Clip.antiAlias, // ⭐ penting
+            clipBehavior: Clip.antiAlias,
             color: Colors.white,
             child: InkWell(
               onTap: onTap,

@@ -92,17 +92,17 @@ class _AboutPageState extends State<AboutPage> {
                     icon: Icons.location_on,
                     title: 'Alamat',
                     subtitle:
-                    'Jl. Merdeka No. 21, Kel. Mangundikaran Kec. Nganjuk Kab. Nganjuk',
+                    'Jl. Basuki Rahmat No.1, Kel. Mangundikaran, Kec. Nganjuk, Kabupaten Nganjuk, Jawa Timur 64419',
                   ),
                   ContactItemWidget(
                     icon: Icons.phone,
                     title: 'Telepon',
-                    subtitle: '(0358) 3550320',
+                    subtitle: '(0358) 321746',
                   ),
                   ContactItemWidget(
                     icon: Icons.email,
                     title: 'Email',
-                    subtitle: 'jdih@nganjukkab.go.id',
+                    subtitle: 'hukum@nganjukkab.go.id',
                   ),
                   ContactItemWidget(
                     icon: Icons.language,
@@ -116,7 +116,7 @@ class _AboutPageState extends State<AboutPage> {
 
               Center(
                 child: Text(
-                  '©2026 Pemerintah Kabupaten Nganjuk',
+                  '©2026 Dinas Komunikasi dan Infromatika Kab. Nganjuk',
                   style: TextStyle(fontSize: 12, color: Colors.grey[500]),
                 ),
               ),

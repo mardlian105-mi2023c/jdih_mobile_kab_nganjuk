@@ -22,7 +22,7 @@ class DetailInfoCard extends StatelessWidget {
             _info("Jenis Peraturan", data.jenis),
             _info("Nomor / Tahun", "${data.nomor}/${data.tahunPengundangan}"),
             _info("Tanggal Penetapan", data.tanggalPenetapan),
-            _info("Bahasa", data.bahasa ?? "Bahasa Indonesia"),
+            _info("Bahasa", data.bahasa),
             _info("Status", _formatStatus(data.status)),
           ],
         ),
@@ -42,7 +42,7 @@ class DetailInfoCard extends StatelessWidget {
         _buildSectionCard(
           title: "Penetapan dan Pengundangan",
           children: [
-            _info("Tempat Penetapan", data.tempatTerbit ?? "-"),
+            _info("Tempat Penetapan", data.tempatTerbit),
             _info("Tanggal Penetapan", data.tanggalPenetapan),
             _info("Tanggal Pengundangan", data.tanggalPengundangan),
             _info("Penandatangan", data.penandatangan ?? "-"),
@@ -54,9 +54,9 @@ class DetailInfoCard extends StatelessWidget {
         _buildSectionCard(
           title: "Pihak Terkait",
           children: [
-            _info("T.E.U", 'Pemerintah ${data.tempatTerbit ?? 'Desa'}'),
-            _info("Sumber", data.sumber ?? "-"),
-            _info("Pemrakarsa", data.pemrakarsa ?? "-"),
+            _info("T.E.U", 'Pemerintah ${data.tempatTerbit}'),
+            _info("Sumber", data.sumber),
+            _info("Pemrakarsa", data.pemrakarsa),
           ],
         ),
       ],
@@ -105,7 +105,7 @@ class DetailInfoCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(14),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.06),
+            color: Colors.black.withValues(alpha: 0.06),
             blurRadius: 8,
             offset: const Offset(0, 3),
           )

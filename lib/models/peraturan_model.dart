@@ -12,20 +12,16 @@ class Peraturan {
   final String bahasa;
   final String pemrakarsa;
   final String tempatTerbit;
-
   final String? bidangHukum;
   final String? abstrak;
   final String? penandatangan;
   final String? tipedokumen;
-
   final String kodeTipe;
   final String kodeJenis;
-
   final String fileDownload;
   final String urlSampul;
   final String urlDownload;
   final String urlDetail;
-
   final int jumlahView;
   final int jumlahDownload;
 
@@ -58,30 +54,37 @@ class Peraturan {
   });
 
   factory Peraturan.fromJson(Map<String, dynamic> json) {
+    String validate(dynamic value) {
+      if (value == null || value.toString().trim().isEmpty) {
+        return '-';
+      }
+      return value.toString();
+    }
+    
     return Peraturan(
-      idData: json['idData']?.toString() ?? '',
-      tahunPengundangan: json['tahun_pengundangan'] ?? '',
-      tanggalPengundangan: json['tanggal_pengundangan'] ?? '',
-      tanggalPenetapan: json['tgl_penetapan'] ?? '',
-      singkatanJenis: json['singkatanJenis'] ?? '',
-      jenis: json['jenis'] ?? '',
-      nomor: json['noPeraturan'] ?? '',
-      judul: json['judul'] ?? '',
-      bahasa: json['bahasa'] ?? '',
-      status: json['status'] ?? '',
-      sumber: json['sumber'] ?? '',
-      pemrakarsa: json['pemrakarsa'] ?? '',
-      tempatTerbit: json['tempatTerbit'] ?? '',
-      bidangHukum: json['bidangHukum'],
-      abstrak: json['abstrak'],
-      penandatangan: json['penandatangan'],
-      tipedokumen: json['tipe_dokumen'],
-      kodeTipe: json['kode_tipe'] ?? '',
-      kodeJenis: json['kode_jenis'] ?? '',
-      fileDownload: json['fileDownload'] ?? '',
-      urlSampul: json['urlSampul'] ?? '',
-      urlDownload: json['urlDownload'] ?? '',
-      urlDetail: json['urlDetailPeraturan'] ?? '',
+      idData: validate(json['idData']),
+      tahunPengundangan: validate(json['tahun_pengundangan']),
+      tanggalPengundangan: validate(json['tanggal_pengundangan']),
+      tanggalPenetapan: validate(json['tgl_penetapan']),
+      singkatanJenis: validate(json['singkatanJenis']),
+      jenis: validate(json['jenis']),
+      nomor: validate(json['noPeraturan']),
+      judul: validate(json['judul']),
+      bahasa: validate(json['bahasa']),
+      status: validate(json['status']),
+      sumber: validate(json['sumber']),
+      pemrakarsa: validate(json['pemrakarsa']),
+      tempatTerbit: validate(json['tempatTerbit']),
+      bidangHukum: validate(json['bidangHukum']),
+      abstrak: validate(json['abstrak']),
+      penandatangan: validate(json['penandatangan']),
+      tipedokumen: validate(json['tipe_dokumen']),
+      kodeTipe: validate(json['kode_tipe']),
+      kodeJenis: validate(json['kode_jenis']),
+      fileDownload: validate(json['fileDownload']),
+      urlSampul: validate(json['urlSampul']),
+      urlDownload: validate(json['urlDownload']),
+      urlDetail: validate(json['urlDetailPeraturan']),
       jumlahView: int.tryParse(json['jml_view'].toString()) ?? 0,
       jumlahDownload: int.tryParse(json['jml_download'].toString()) ?? 0,
     );

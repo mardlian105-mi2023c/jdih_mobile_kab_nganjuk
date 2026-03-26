@@ -79,7 +79,7 @@ class _SplashPageState extends State<SplashPage> {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w400,
-                  color: Colors.white.withOpacity(0.9),
+                  color: Colors.white.withValues(alpha: 0.9),
                   letterSpacing: 0.5,
                 ),
               ),

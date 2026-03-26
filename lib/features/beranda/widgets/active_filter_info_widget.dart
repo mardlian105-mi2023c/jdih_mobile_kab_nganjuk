@@ -90,7 +90,7 @@ class ActiveFilterInfoWidget extends StatelessWidget {
           fontWeight: FontWeight.w500,
         ),
       ),
-      backgroundColor: color.withOpacity(0.1),
+      backgroundColor: color.withValues(alpha: 0.1),
       deleteIcon: Icon(
         Icons.close_rounded,
         size: 16,
@@ -99,7 +99,7 @@ class ActiveFilterInfoWidget extends StatelessWidget {
       onDeleted: onDelete,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
-        side: BorderSide(color: color.withOpacity(0.3)),
+        side: BorderSide(color: color.withValues(alpha: 0.3)),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
     );

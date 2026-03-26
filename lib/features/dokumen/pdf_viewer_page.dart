@@ -23,33 +23,12 @@ class PdfViewerPage extends StatelessWidget {
         backgroundColor: Colors.white,
         foregroundColor: Colors.blue[800],
         elevation: 1,
-        leading: IconButton(
-          icon: Container(
-            decoration: BoxDecoration(
-              color: Colors.grey[100],
-              borderRadius: BorderRadius.circular(10),
-            ),
-            padding: const EdgeInsets.all(8),
-            child: const Icon(
-              Icons.arrow_back_ios_new_rounded,
-              size: 18,
-            ),
-          ),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
       ),
       body: Container(
         margin: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: Colors.grey[300]!),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withValues(alpha: 0.1),
-              blurRadius: 15,
-              offset: const Offset(0, 5),
-            ),
-          ],
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(16),
@@ -60,17 +39,11 @@ class PdfViewerPage extends StatelessWidget {
             autoSpacing: true,
             pageFling: true,
             pageSnap: true,
-            defaultPage: 0,
             fitPolicy: FitPolicy.BOTH,
-            preventLinkNavigation: false,
-            onRender: (pages) {
-              // PDF selesai di-render
-            },
             onError: (error) {
-              // Handle error
-            },
-            onPageChanged: (page, total) {
-              // Page changed
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text("Error membuka PDF")),
+              );
             },
           ),
         ),

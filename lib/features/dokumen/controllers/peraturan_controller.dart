@@ -124,7 +124,7 @@ class PeraturanController {
       debugPrintStack(stackTrace: stack);
 
       isLoading = false;
-      errorMessage = 'Terjadi kesalahan tak terduga';
+      errorMessage = 'Periksa Koneksi Anda';
       _showSnack(errorMessage!);
     }
 
@@ -264,7 +264,7 @@ class PeraturanController {
     onStateChanged.call();
   }
 
-  // ================= UTIL =================
+  // ================= UTILS =================
   Future<void> refreshData() async => await loadData();
 
   void clearFilters() {

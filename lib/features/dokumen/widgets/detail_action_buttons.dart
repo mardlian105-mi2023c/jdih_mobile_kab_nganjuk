@@ -24,6 +24,8 @@ class DetailActionButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isFileExists = localPath != null;
+
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -31,12 +33,12 @@ class DetailActionButtons extends StatelessWidget {
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.03),
+            color: Colors.black.withValues(alpha: 0.03),
             blurRadius: 20,
             offset: const Offset(0, 8),
           ),
           BoxShadow(
-            color: Colors.black.withOpacity(0.02),
+            color: Colors.black.withValues(alpha: 0.02),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -58,7 +60,7 @@ class DetailActionButtons extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(6),
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.15),
+                    color: Colors.white.withValues(alpha: 0.15),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: const Icon(
@@ -74,7 +76,6 @@ class DetailActionButtons extends StatelessWidget {
                     color: Colors.white,
                     fontWeight: FontWeight.w500,
                     fontSize: 16,
-                    letterSpacing: 0.3,
                   ),
                 ),
               ],
@@ -85,6 +86,7 @@ class DetailActionButtons extends StatelessWidget {
             padding: const EdgeInsets.all(24),
             child: Column(
               children: [
+                // TITLE
                 Row(
                   children: [
                     Container(
@@ -102,24 +104,18 @@ class DetailActionButtons extends StatelessWidget {
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
                         color: primaryDark,
-                        letterSpacing: -0.2,
                       ),
                     ),
                   ],
                 ),
 
                 const SizedBox(height: 20),
-
-                Container(
-                  height: 1,
-                  color: Colors.grey[100],
-                ),
-
+                Container(height: 1, color: Colors.grey[100]),
                 const SizedBox(height: 24),
 
                 loading
                     ? _buildLoadingIndicator()
-                    : _buildActionButtons(context),
+                    : _buildActionButtons(context, isFileExists),
               ],
             ),
           ),
@@ -128,6 +124,7 @@ class DetailActionButtons extends StatelessWidget {
     );
   }
 
+  // ================= LOADING =================
   Widget _buildLoadingIndicator() {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 24),
@@ -154,56 +151,92 @@ class DetailActionButtons extends StatelessWidget {
     );
   }
 
-  Widget _buildActionButtons(BuildContext context) {
-    final bool isFileExists = localPath != null;
-
+  Widget _buildActionButtons(BuildContext context, bool isFileExists) {
     return Column(
       children: [
         Row(
           children: [
-            Expanded(child: _buildPdfButton()),
+            Expanded(
+              child: _buildCardButton(
+                backgroundColor: const Color(0xFFFEF2F2),
+                iconBg: redColor,
+                icon: Icons.picture_as_pdf_rounded,
+                title: 'Buka PDF',
+                subtitle: 'Lihat online',
+                textColor: redColor,
+                onTap: onOpenPdf,
+              ),
+            ),
             const SizedBox(width: 16),
-            Expanded(child: _buildDownloadButton(isFileExists)),
+            Expanded(
+              child: _buildCardButton(
+                backgroundColor: isFileExists
+                    ? const Color(0xFFF0FDF4)
+                    : const Color(0xFFEFF6FF),
+                iconBg: isFileExists ? greenColor : blueColor,
+                icon: isFileExists
+                    ? Icons.file_download_done_rounded
+                    : Icons.download_rounded,
+                title: isFileExists ? 'Download Ulang' : 'Download',
+                subtitle: isFileExists ? 'Perbarui file' : 'Simpan offline',
+                textColor: isFileExists ? greenColor : blueColor,
+                onTap: onDownloadPdf,
+              ),
+            ),
           ],
         ),
+
         if (isFileExists) ...[
           const SizedBox(height: 16),
-          _buildViewDownloadedButton(context),
-        ],
+          Material(
+            borderRadius: BorderRadius.circular(20),
+            color: const Color(0xFFF8FAFC),
+            child: InkWell(
+              borderRadius: BorderRadius.circular(20),
+              onTap: () async {
+                if (localPath != null) {
+                  final file = File(localPath!);
+                  if (await file.exists()) {
+                    onViewDownloadedPdf();
+                  } else if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text(
+                            'File tidak ditemukan. Silakan download ulang.'),
+                        backgroundColor: Colors.orange,
+                      ),
+                    );
+                  }
+                }
+              },
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 18),
+                alignment: Alignment.center,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Icon(Icons.folder_open_rounded,
+                        size: 18, color: greenColor),
+                    SizedBox(width: 12),
+                    Text(
+                      'Lihat File Tersimpan',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 15,
+                        color: primaryDark,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ]
       ],
     );
   }
 
-  Widget _buildPdfButton() {
-    return _buildCardButton(
-      backgroundColor: const Color(0xFFFEF2F2),
-      iconBg: redColor,
-      icon: Icons.picture_as_pdf_rounded,
-      title: 'Buka PDF',
-      subtitle: 'Lihat online',
-      textColor: redColor,
-      onTap: onOpenPdf,
-    );
-  }
-
-  Widget _buildDownloadButton(bool isFileExists) {
-    final baseColor = isFileExists ? greenColor : blueColor;
-    final bgColor =
-    isFileExists ? const Color(0xFFF0FDF4) : const Color(0xFFEFF6FF);
-
-    return _buildCardButton(
-      backgroundColor: bgColor,
-      iconBg: baseColor,
-      icon: isFileExists
-          ? Icons.file_download_done_rounded
-          : Icons.download_rounded,
-      title: isFileExists ? 'Download Ulang' : 'Download',
-      subtitle: isFileExists ? 'Perbarui file' : 'Simpan offline',
-      textColor: baseColor,
-      onTap: onDownloadPdf,
-    );
-  }
-
+  // ================= CARD BUTTON =================
   Widget _buildCardButton({
     required Color backgroundColor,
     required Color iconBg,
@@ -244,54 +277,8 @@ class DetailActionButtons extends StatelessWidget {
               Text(
                 subtitle,
                 style: TextStyle(
-                  color: textColor.withOpacity(0.6),
+                  color: textColor.withValues(alpha: 0.6),
                   fontSize: 12,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildViewDownloadedButton(BuildContext context) {
-    return Material(
-      borderRadius: BorderRadius.circular(20),
-      color: const Color(0xFFF8FAFC),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(20),
-        onTap: () async {
-          if (localPath != null) {
-            final file = File(localPath!);
-            if (await file.exists()) {
-              onViewDownloadedPdf();
-            } else if (context.mounted) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content:
-                  Text('File tidak ditemukan. Silakan download ulang.'),
-                  backgroundColor: Colors.orange,
-                  behavior: SnackBarBehavior.floating,
-                ),
-              );
-            }
-          }
-        },
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 18),
-          alignment: Alignment.center,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Icon(Icons.folder_open_rounded, size: 18, color: greenColor),
-              SizedBox(width: 12),
-              Text(
-                'Lihat File Tersimpan',
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 15,
-                  color: primaryDark,
                 ),
               ),
             ],

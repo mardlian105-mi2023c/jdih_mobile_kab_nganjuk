@@ -1,4 +1,6 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:open_file/open_file.dart';
 import '../../models/peraturan_model.dart';
 import '../../core/utils/file_utils.dart';
 import 'pdf_viewer_page.dart';
@@ -98,12 +100,12 @@ class _DetailPageState extends State<DetailPage> {
       localPath = path;
     });
 
-    _showSnack(
-      path != null
-          ? "PDF berhasil disimpan di Download/JDIH"
-          : "Gagal mengunduh PDF",
-      path != null ? Colors.green : Colors.red,
-    );
+    if (path != null && File(path).existsSync()) {
+      _showSnack("PDF berhasil diunduh & dibuka", Colors.green);
+      await OpenFile.open(path);
+    } else {
+      _showSnack("Gagal mengunduh PDF", Colors.red);
+    }
   }
 
   void _viewDownloadedPdf() {
@@ -173,7 +175,7 @@ class _DetailPageState extends State<DetailPage> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.08),
+        color: color.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(30),
       ),
       child: Row(
@@ -193,9 +195,8 @@ class _DetailPageState extends State<DetailPage> {
   }
 
   Widget _buildStatsBadges() {
-    final viewCount = widget.data.jumlahView ?? 0;
-    final downloadCount = widget.data.jumlahDownload ?? 0;
-
+    final viewCount = widget.data.jumlahView;
+    final downloadCount = widget.data.jumlahDownload;
     return Center(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -224,7 +225,7 @@ class _DetailPageState extends State<DetailPage> {
         border: Border.all(color: Colors.grey.shade200),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withValues(alpha: 0.04),
             blurRadius: 14,
             offset: const Offset(0, 6),
           )
@@ -273,7 +274,7 @@ class _DetailPageState extends State<DetailPage> {
                     borderRadius: BorderRadius.circular(16),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.12),
+                        color: Colors.black.withValues(alpha: 0.12),
                         blurRadius: 18,
                         offset: const Offset(0, 10),
                       )
@@ -392,14 +393,14 @@ class _DetailPageState extends State<DetailPage> {
                           onDownloadPdf: downloadPdf,
                           onViewDownloadedPdf: _viewDownloadedPdf,
                         ),
+
                         _buildDownloadProgress(),
                         const SizedBox(height: 30),
                         _buildStatsBadges(),
                         const SizedBox(height: 30),
-
                         if (widget.data.urlSampul.isNotEmpty) ...[
-                          _buildElegantCover(),
-                          const SizedBox(height: 30),
+                        _buildElegantCover(),
+                        const SizedBox(height: 30),
                         ],
                       ],
                     ),
@@ -408,11 +409,12 @@ class _DetailPageState extends State<DetailPage> {
               ),
             ],
           ),
+
           Positioned(
             top: MediaQuery.of(context).padding.top + 10,
             left: 16,
             child: Material(
-              color: Colors.white.withOpacity(0.9),
+              color: Colors.white.withValues(alpha: 0.9),
               borderRadius: BorderRadius.circular(14),
               elevation: 4,
               child: InkWell(

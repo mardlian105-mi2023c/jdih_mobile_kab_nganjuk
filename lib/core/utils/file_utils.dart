@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:path_provider/path_provider.dart';
 
 class FileUtils {
   static Future<String?> downloadPdf(
@@ -8,13 +9,8 @@ class FileUtils {
       Function(double progress)? onProgress,
       ) async {
     try {
-      final directory = Directory('/storage/emulated/0/Download/JDIH');
-
-      if (!await directory.exists()) {
-        await directory.create(recursive: true);
-      }
-
-      final filePath = "${directory.path}/$fileName";
+      final dir = await getApplicationDocumentsDirectory();
+      final filePath = "${dir.path}/$fileName";
       final file = File(filePath);
 
       if (await file.exists()) {
@@ -26,14 +22,13 @@ class FileUtils {
         filePath,
         onReceiveProgress: (received, total) {
           if (total != -1 && onProgress != null) {
-            double progress = received / total;
-            onProgress(progress);
+            onProgress(received / total);
           }
         },
       );
 
       return filePath;
-    } catch (e) {
+    } catch (_) {
       return null;
     }
   }

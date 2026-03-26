@@ -27,7 +27,7 @@ class ServerErrorWidget extends StatelessWidget {
                 shape: BoxShape.circle,
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.blue.withOpacity(0.55),
+                    color: Colors.blue.withValues(alpha: 0.55),
                     blurRadius: 20,
                     offset: const Offset(0, 10),
                   ),
@@ -42,7 +42,7 @@ class ServerErrorWidget extends StatelessWidget {
             const SizedBox(height: 24),
 
             const Text(
-              "Gagal Memuat Halaman",
+              "Periksa Koneksi Anda",
               style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.w600,
@@ -78,7 +78,7 @@ class ServerErrorWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(30),
                 ),
                 elevation: 5,
-                shadowColor: const Color(0xFF2ECC71).withOpacity(0.4),
+                shadowColor: const Color(0xFF2ECC71).withValues(alpha: 0.4),
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
